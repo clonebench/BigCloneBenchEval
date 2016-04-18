@@ -1,0 +1,14 @@
+Use the following instructions to setup the database.
+These have been tested on Ubuntu.
+
+1. Download and extract BigCloneBench database.
+
+2. Install Postgresql.
+
+3. Add a user 'bigclonebench' with password 'bigclonebench' in psql:
+
+	CREATE USER bigclonebench WITH PASSWORD 'bigclonebench';
+
+4. Load database:
+
+	pg_restore era_bigclonebench.sql

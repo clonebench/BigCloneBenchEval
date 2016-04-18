@@ -1,0 +1,116 @@
+The following is an example usage of the benchmark evaluation commands.
+The current directory is 'commands/'.
+
+$ ./addTool
+
+::::::::::::::::::::::::::: BigCloneBench - Add Tool ::::::::::::::::::::::::::
+ Provide a name and description for this tool.  A newline ends the input.
+ Provide a blank response for either to cancel.
+
+ Name: ExampleTool
+
+ Description: This is my example tool.
+
+        Tool was added with ID: 8
+:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+
+
+
+
+$ ./listTools
+
+:::::::::::::::::::::::::: BigCloneBench - List Tools :::::::::::::::::::::::::
+
+[1] - ExampleTool
+    This is my example tool.
+
+:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+
+
+
+
+$ ./importClones
+
+:::::::::::::::::::::::: BigCloneBench - Import CLones ::::::::::::::::::::::::
+ Specify the tool and file containing the clones to import.
+ Blank input cancels.
+
+ Tool ID: 8
+
+ Clone file: /path/to/clone/file
+
+    Successfully imported 3315916 clones.
+
+    Total time: 107.864 seconds.
+:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+
+
+
+
+$ ./evaluateTool
+
+:::::::::::::::::::::::: BigCloneBench - Evaluate Tool ::::::::::::::::::::::::
+ Specify the tool to evaluate, configure the evaluation configuration, and a
+ file to save the evaluation to.
+ Use CTRL-C to cancel.
+
+Specify the tool to evaluate.
+
+
+ Tool ID: 1
+
+Specify the file to write the evaluation resuls to.
+
+ Output File: /path/to/output/file
+
+Specify the constraints on the selected reference clones for evaluation.
+This defines the clones selected for evaluation.
+
+ How should reference clone similarity be measured? (both/line/token/avg): both
+
+ Minimum Clone Size in Lines (or blank for none): 6
+
+ Maximum Clone Size in Lines (or blank for none): 
+
+ Minimum Clone Size in Pretty-Printed Lines (or blank for none): 
+
+ Maximum Clone Size in Pretty-Printed Lines (or blank for none): 
+
+ Minimum Clone Size in Tokens (or blank for none): 
+
+ Maximum Clone Size in Tokens (or blank for none): 
+
+
+Select and setup the clone matching algorithm.
+This determines how recall is measured.
+
+ Select a clone matcher:
+-------------------------------------------------------------------------------
+    [1] - Coverage - For a reference clone pair to be considered detected, the
+                     tool must report a clone pair that covers a given ratio of
+                     the reference clone pair.  An optional ratio can be
+                     specified as the minimum ratio of the detected clone (in
+                     lines) that must be from the reference clone.
+
+    [[ Additional clone matchers to be added. ]]
+-------------------------------------------------------------------------------
+:::: 1
+
+ Specify coverage in range [0.0,1.0]: 0.70
+
+ Specify minimum ratio is reference clone (or blank to omit) in range [0.0,1.0]: 
+
+Specify the minimum clone similarity to measure recall for.  Setting to 0
+will evaluate for all clones, but evaluation can be very time-consuming.
+Setting slightly below the expected capabilities of the tool can save
+significant evaluation time.
+
+ Minimum clone similarity [0-100, increment of 5]: 50
+
+Evaluation has begun.  This may take some time!
+
+
+:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::

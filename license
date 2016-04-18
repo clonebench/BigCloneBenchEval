@@ -1,0 +1,29 @@
+BigCloneBenchEval
+
+Software Research Lab, University of Saskatchewan
+April 2016
+
+Copyright 2016, Jeff Svajlenko, Chanchal K. Roy
+
+BigCloneBenchEval is provided free of charge for use by individuals, companies
+and institutions provided that proper acknowledgement of use is made in all
+published work deriving from or depending upon such use.
+
+BigCloneBenchEval is provided as-is, without any warranty, including any implied warranty.
+
+Permission to copy and redistribute BigCloneBenchEval is granted provided that the distribution is retained unmodified in its entirety, including this file, and no charge of any kind is made for such redistribution.
+
+
+Attribution should name the authors, and cite the following papers:
+
+	Jeffrey Svajlenko, Judith F. Islam, Iman Keivanloo, Chanchal K. Roy and
+	Mohammad Mamun Mia, "Towards a Big Data Curated Benchmark of Inter-Project
+	Code Clones", In Proceedings of the Early Research Achievements track of the
+	30th International Conference on Software Maintenance and Evolution
+	(ICSME 2014), 5 pp., Victoria, Canada,  September 2014.
+
+	Jeffrey Svajlenko and Chanchal K. Roy, “Evaluating Clone Detection Tools with
+	BigCloneBench”, In Proceedings of the 31st International Conference on Software
+	Maintenance and Evolution (ICSME 2015), 10 pp., Bremen, Germany, September 2015.
+
+

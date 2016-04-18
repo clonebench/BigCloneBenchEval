@@ -1,0 +1,159 @@
+===============================================================================
+=                               Database Schema                               =
+===============================================================================
+
+In this document we describe the schema of the database.  This is not needed
+to use the included recall experiment tools, but is needed to build custom
+experiments upon the benchmark data.
+
+-------------------------------------------------------------------------------
+-                                  Functions                                  -
+-------------------------------------------------------------------------------
+
+This table describes the functions in IJaDataset.
+
+              id - Unique identifier.
+            name - The name of the file containing the function.
+            type - The directory of IJaDataset containing this file.
+                         default - File was in the default package of the
+                                    source java project.
+                        selected - File was in a named package of the source
+                                    java project.
+                          sample - File is from sample code added to IJaDataset
+                                   as part of the benchmark construction
+                                   process.
+       startline - The line the function starts on.
+         endline - The line the function ends on.
+          tokens - The number of tokens in this function. 
+ normalized_size - The size of the function in lines after pretty-printing.
+        internal - If this function is contained within another function.
+            host - The original host of the source file containing this
+                   function.
+         project - The project the source file containing this function is
+                   from.
+      versioning - The version-control the source file was under.
+            path - The path to the source file containing this function in the
+                   original project.
+         license - The license for this code (derived using heuristics, may be
+                   missing).
+
+-------------------------------------------------------------------------------
+-                               Functionalities                               -
+-------------------------------------------------------------------------------
+
+This table describes the functionalities within the benchmark.
+
+               id - A unique identifier.
+             name - The name of the functionality.
+      description - Formal specification of minimum implementation of the
+                    functionality.
+ search_heuristic - The search heuristic used to identify functions that might
+                    implement this functionality.
+
+-------------------------------------------------------------------------------
+-                                   Samples                                   -
+-------------------------------------------------------------------------------
+
+Indicates which functions are exemplar sample functions of the functionalities,
+which were intentionally created and added to IJaDataset as part of the
+benchmark creation process.
+
+      function_id - The ID of the function (ref: functions table).
+ functionality_id - The functionality this function is a sample of.
+
+-------------------------------------------------------------------------------
+-                                    Tagged                                   -
+-------------------------------------------------------------------------------
+
+This describes the function tags.  These are the results of judges tagging
+functions as a true or false positive (clone) of a functionality.
+
+               id - A unique id for this tag.
+      function_id - The function being tagged (references functions).
+ functionality_id - The functionality this tag is for (references
+                    functionalities).
+           tagger - The name of the tagger.
+       time_stamp - When this tag was made.
+     elapsed_time - Time the tagger spent examining this function.
+         is_clone - If this is a clone of the functionality.  I.e., it meets the
+                    minimum specification of the functionality.
+
+-------------------------------------------------------------------------------
+-                                    Judged                                   -
+-------------------------------------------------------------------------------
+
+Summarizes cumulative tagging of functions, accumulating the true-positive
+and false-positive tags per function per functionality.
+
+      function_id - The function (references functions).
+ functionality_id - The functionality (references functions).
+               tp - The number of true-positive tags for this function for this
+                    functionality.
+               fp - The number of false-positive tags for this function for this
+                    functionality.
+
+-------------------------------------------------------------------------------
+-                                    Clones                                   -
+-------------------------------------------------------------------------------
+
+Summarizes the known clone pairs in the benchmark.  
+
+  function_id_one - One of the functions of the clone pair.
+  function_id_two - The other function of the clone pair.
+ functionality_id - The functionality these functions share.
+             type - The type of clone from benchmark construction.  One of:
+                        sample-sample - Both functions are sample functions.
+                        sample-tagged - One function is a sample function, the
+                                        other is a tagged function.
+                        tagged-tagged - Both functions are tagged functions.
+   syntactic_type - The clone type.  One of: {1,2,3}.
+  similarity_line - The syntactical clone similarity measured by-line after
+                    Type-1 and Type-2 normalizations.
+ similarity_token - The syntactical clone similarity measured by-token after
+                    Type-1 and Type-2 normalizations.
+         min_size - The number of original lines in the smaller function.
+         max_size - The number of original lines in the larger function.
+  min_pretty_size - The number of pretty-printed lines in the smaller function.
+  max_pretty_size - The number of pretty-printed lines in the larger function.
+       min_tokens - The number of tokens in the smaller function.
+       max_tokens - The numeber of tokens in the larger function.
+       min_judges - The minimum number of judges that have evaluated the
+                    functions.
+   min_confidence - The minimum diffrence between the functions number of true
+                    and false tags.
+         internal - If the clone has a function that is within another
+                    function.
+
+A few comments:
+ - The 'type' of the clone indicates how the clone was constructed as per the
+   benchmarking creation process.
+ - The Type-2 clones have 100% syntactical similarity after
+   consistent-identifier renaming.
+ - The Type-3 clones with 100% sytnactical similarity can also be interpreted
+   as Type-2 clones after blind normalization.
+
+--------------------------------------------------------------------------------
+-                                False Positives                               -
+--------------------------------------------------------------------------------
+
+  function_id_one - One of the functions of the clone pair.
+  function_id_two - The other function of the clone pair.
+ functionality_id - The functionality these functions share.
+             type - The type of clone from benchmark construction.  One of:
+                        sample-tagged - One function is a sample function, the
+                                        other is a tagged function.
+  similarity_line - The syntactical clone similarity measured by-line after
+                    Type-1 and Type-2 normalizations.
+ similarity_token - The syntactical clone similarity measured by-token after
+                    Type-1 and Type-2 normalizations.
+   syntactic_type - The clone type.  One of: {1,2,3}.
+       min_judges - The minimum number of judges that have evaluated the
+                    functions.
+   min_confidence - The minimum diffrence between the functions number of true
+                    and false tags.
+
+
+Some notes:
+ - We identify the sytnactical clone type of the false positives.  However,
+   the clones do not share functionality, so we interpret them as coincidental
+   syntactical similarity.

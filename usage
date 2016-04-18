@@ -1,0 +1,140 @@
+Clone detector evaluation experiments can be conducted using the commands in
+`commands/`.  These commands should be executed from within their directory.
+
+================================================================================
+=                                   Commands                                   =
+================================================================================
+
+The following is the role of each command.  The commands can be executed as
+./commandName from within the 'commands/' directory.  They will then guide you
+through their required inputs.
+
+|| listTools || - Lists the tools currently tracked by the database.
+           Input: None.
+	  Output: The tools, their IDs, names and descriptions.
+
+
+|| addTool || - Adds a new tool to the database.
+         Input: A name and description for the tool.
+        Output: The ID of the tool in the database.
+
+
+|| deleteTool || - Removes a tool from the database, as well as its imported
+                   clones.
+            Input: The ID of the clone to delete.
+           Output: The number of imported clones removed.
+
+
+|| importClones || - Imports detected clones into the database.
+	    Input: The ID of the tool that detected these clones, and the file
+                   containing the clones.
+           Output: The number of clones imported.
+
+|| countClones || - Counts the number of detected clones imported for a tool.
+             Input: The ID of the tool.
+            Ouptut: The number of detected clones imported for this tool.
+
+|| evaluateTool || - Evaluates the recall of a tool based on its imported
+                     clones.
+              Input: The ID of the tool, the file to output the results to, the
+                     clones to evaluate recall for, and the clone matcher
+                     configuration. (Described in the next section).
+	     Output: The results to the specified file.
+
+================================================================================
+=                                 Input Format                                 =
+================================================================================
+
+Clone file for inportClones should contain one clone pair per line in the
+following format:
+
+"directory,filename,startline,endline,directory,filename,startline,endline"
+
+Where the first four and last four elements are the two code fragments that form
+the clone pair.  Directory is one of 'default','selected' and 'sample' from
+IJaDataset, filename is the file within that directory, and startline/endline
+are the start and end of the code fragment.
+
+For example:
+sample,BinarySearch.java,10,20,default,102456.java,20,30
+selected,10563.java,15,24,default,15312,java,30,45
+
+================================================================================
+=                           Evaluation Configuration                           =
+================================================================================
+
+The 'evaluateTool' command will ask for a number of evaluation parameters.
+
+  Basic
+  -----
+            ID - The ID of the tool to measure recall for.
+    ResultFile - The file (path) to output the results to (file should not
+                  already exist).
+
+
+  Clone Size
+  ----------
+These configurations define the minimum and maximium size of the clones recall
+is measured for.  Clone size is measured as the minimum/maximum size of a clone
+pair's code fragments.  All of these constraints are optional.
+
+           Min. Lines - Minimum clone size in original code lines.
+           Max. Lines - Maximum clone size in original code lines.
+          Min. Tokens - Minimum clone size in tokens.
+          Max. Tokens - Maximum clone size in tokens.
+    Min. Pretty Lines - Minimum clone size in pretty-printed lines.
+    Max. Pretty Lines - Maximum clone size in pretty-printed lines.
+
+Historically, clone-benchmarking experiments have used a 6-line minimum.
+However, this is rather small, and some clone detectors may have poor precision
+at this clone size.  Most modern Type-3 clone detection tools reccomend a
+minimum clone size of 10-15 lines.
+
+
+  Clone Similarity Type
+  ---------------------
+This defines how clone similarity is measured when measuring recall for
+different regions of syntactical similarity.  Each reference clone in the
+benchmark has syntactical similarity measured by pretty-printed line (approx.
+per statement) and by token after Type-1 (pretty-printing) and Type-2
+(identifier and literal abstraction) normalizations.
+
+Clone similarity type is one of the following:
+
+    Token - The by-token clone similarity is used.
+     Line - The by-line clone similarity is used.
+      Avg - The average of the by-token and by-line clone similarity is used.
+     Both - The smaller of the by-line and by-token clone similarity is used.
+
+We reccomend using 'both'.  It is the most conservative choice.
+
+
+  Clone Matcher
+  -------------
+The benchmark uses a coverage-based clone matching algorithm.  A reference
+clone is considered detected by a tool if the tool reported a detected clone
+that covers a minimum ratio of the reference clone.  Optionally, the matcher
+can be configured to also require the reference clone to cover a certain ratio
+of the detected clone (to ensure the reference clone is a significant aspect
+of the detected clone).  Formally it has the following:
+
+    Coverage Ratio - The ratio of the reference clone that must be covered.
+    Featured Ratio - The minimum ratio of the detected clone that the reference 
+                     clone must cover for the detected clone to be considered a
+                     match (in addition to the coverage ratio). (Optional).
+
+We reccomend using a coverage ratio of 70% and no featured ratio.  This gives
+benefit to the tools in the evaluation.  70% is standard in benchmarking
+experiments.
+
+
+  Minimum Clone Similarity
+  ------------------------
+The benchmark will evaluate recall for different regions of clone syntactical
+similarity.  This is the minimum clone similarity to measure recall down to.
+Measuring recall for the entire spectrum can be very time consuming, especially
+since most tools do not detect semantic clones with low syntactical similarity.
+
+We reccomend using a minimum clone similarity of 50%.  This won't take too long
+to run the evaluation, and most tools wouldn't have any recall for clones with
+less than 50% sytnactical similarity.
