@@ -1,5 +1,7 @@
 Clone detector evaluation experiments can be conducted using the commands in
-`commands/`.  These commands should be executed from within their directory.
+`commands/`.  These commands should be executed from within their directory
+(they depend on relative paths from this directory).  Following the commands is
+tool execution advice, input formats, and recall evaluation parameters.
 
 ================================================================================
 =                                   Commands                                   =
@@ -40,6 +42,45 @@ through their required inputs.
                      clones to evaluate recall for, and the clone matcher
                      configuration. (Described in the next section).
 	     Output: The results to the specified file.
+
+================================================================================
+=                      Executing Your Tool for IJaDataset                      =
+================================================================================
+
+To evaluate your tool, you will need to execute your tool for IJaDataset.  This
+inter-project Java source-code repository is available at
+https://github.com/clonebench/BigCloneBench.
+
+Executing a clone detection tool for the entirity of BigCloneBench may not be
+possible except for tools designed for extreme scalability.  There are a few
+ways to avoid this scalability challenge.
+
+We provide a reduced version of IJaDataset.  This has one folder per
+functionality in BigCloneBench.  The folder of a functionality contains all
+source files with a function tagged as true or false positive of that
+functionality.  Therefore that folder contains all true and false positive
+clones known in the benchmark for that functionality.  You can execute your tool
+for each of these directories individually, and merge the reports for import
+and the measurement of recall.  This is equivalent to executing the tool for the
+entire IJaDataset from the point of view of the benchmark.  This still exposes
+the tool to false positive clones, so it is each execution is a realistic
+clone-detection expirence.
+
+For some tools, particularly those with high memory requirements, some of these
+subdirectories may still be beyond scalability constraints.  In this case
+"deterministic input partitioning" can be used.  This involves splitting the
+directory into n partitions, and executing the tool for each unique pair of
+partitions.  Choosing a number of partitions such that each pair of partitions
+is within the tool's scalability constraints.  Merging the clone detection
+reports from each pair of partitions is equivalent to executing the tool for
+the entire set (with an increase in overall runtime, but a decrease in memory
+requirements).  This will lead to some clones being reported multiple times.
+
+Both of these techniques may cause some clones to be reported multiple times.
+So it may be good to trim the duplicate clones before import into the benchmark
+framework.
+
+If you need any further advice, please contact us.
 
 ================================================================================
 =                                 Input Format                                 =
