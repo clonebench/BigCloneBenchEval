@@ -1,7 +1,9 @@
+# WARNING
+This repository is out of date.
+
 # BigCloneBenchEval
-This is a collection of tools and instructions for measuring the recall of a clone detection tool using the latest version of BigCloneBench.
+This project has moved to [here]{https://github.com/jeffsvajlenko/BigCloneEval}.
 
-To get the latest version of BigCloneBenchEval, clone this repository.  Receive updates using git pull.
-
+# BigCloneBench
 BigCloneBench is available [here]{https://github.com/clonebench/BigCloneBench/).
 
